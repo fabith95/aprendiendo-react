@@ -1,7 +1,23 @@
-export function TwitterFollowCard({ userName, name }) {
+import { useState } from "react";
+
+export function TwitterFollowCard({ userName, children }) {
+  //Uso de children en componentes
   // console.log(isFollowing);
   // const addAt = (userName) => `@${userName}`
+
+  const [isFollowing, setIsFollowing] = useState(false); //manejo de STATE HOOK
+
   const imagenDev = `https://unavatar.io/${userName}`;
+
+  const text = isFollowing ? "Siguiendo" : "Seguir";
+
+  const buttonClassName = isFollowing //RENDERIZADO CONDICIONAL(ternaria)
+    ? "tw-fb-article-button is-Following"
+    : "tw-fb-article-button";
+
+  const handleClick = () => {
+    setIsFollowing(!isFollowing);
+  };
 
   return (
     <article className="tw-fb-article-followed">
@@ -12,13 +28,15 @@ export function TwitterFollowCard({ userName, name }) {
           src={imagenDev}
         />
         <div className="tw-fb-article-header-info">
-          <strong>{name}</strong>
-          <span className=".tw-fb-article-header-span">@(userName)</span>
+          <strong>{children}</strong>
+          <span className=".tw-fb-article-header-span">@{userName}</span>
         </div>
       </header>
 
       <aside>
-        <button className="tw-fb-article-button">Seguir</button>
+        <button className={buttonClassName} onClick={handleClick}>
+          {text}
+        </button>
       </aside>
     </article>
   );
